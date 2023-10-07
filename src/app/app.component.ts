@@ -11,14 +11,14 @@ export class AppComponent implements OnInit {
   isSpinning: boolean = false;
 
   images: string[] = [
-    '../assets/images/cherries.png',
-    '../assets/images/seven.png',
-    '../assets/images/watermelon.png',
-    '../assets/images/bar.png',
-    '../assets/images/cherries.png',
-    '../assets/images/seven.png',
-    '../assets/images/watermelon.png',
-    '../assets/images/bar.png',
+    './assets/images/cherries.png',
+    './assets/images/seven.png',
+    './assets/images/watermelon.png',
+    './assets/images/bar.png',
+    './assets/images/cherries.png',
+    './assets/images/seven.png',
+    './assets/images/watermelon.png',
+    './assets/images/bar.png',
   ];
 
   reelImages = [[], [], []];
