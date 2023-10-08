@@ -14,17 +14,17 @@
     gap: 8vw;
     padding: 5vw;
     height: 65vw;
+    box-shadow: inset 0 0px 0px 0px #fff, inset 0 -1px 10px 0px black;
 
     img {
       height: calc(100% / 3 - 6vw);
     }
 
-    img.spiningImage {
+    img.spinningImage {
       animation: spinImage 0.2s linear;
       animation-iteration-count: infinite;
       position: relative;
     }
-
   }
 }
 

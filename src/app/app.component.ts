@@ -6,8 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  title = 'slot-game';
-
   isSpinning: boolean = false;
 
   images: string[] = [
@@ -22,14 +20,14 @@ export class AppComponent implements OnInit {
   ];
 
   reelImages = [[], [], []];
-  spiningReelImages = [[], [], []];
+  spinningReelImages = [[], [], []];
 
   ngOnInit(): void {
     this.initReelSymbol();
   }
 
   initReelSymbol(): void {
-    this.reelImages.forEach((reel, index) => {
+    this.reelImages.forEach((_, index) => {
       this.reelImages[index] = JSON.parse(
         JSON.stringify(this.shuffleSymbol(this.images))
       );
@@ -41,13 +39,13 @@ export class AppComponent implements OnInit {
   };
 
   spin() {
-    this.spiningReelImages.forEach((reel, index) => {
-      this.spiningReelImages[index] = JSON.parse(
+    this.spinningReelImages.forEach((_, index) => {
+      this.spinningReelImages[index] = JSON.parse(
         JSON.stringify(this.shuffleSymbol(this.images))
       );
     });
 
-    this.reelImages.forEach((reel, index) => {
+    this.reelImages.forEach((_, index) => {
       this.reelImages[index] = JSON.parse(
         JSON.stringify(this.shuffleSymbol(this.reelImages[index]))
       );
