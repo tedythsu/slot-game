@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable, Subscription, interval, tap, timer } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
   isSpinning: boolean = false;
+  isAutoMode: boolean = false;
+  autoSpinIntervalSubscription: Subscription = new Subscription();
 
   images: string[] = [
     './assets/images/cherries.png',
@@ -39,6 +42,8 @@ export class AppComponent implements OnInit {
   };
 
   spin() {
+    this.isSpinning = true;
+
     this.spinningReelImages.forEach((_, index) => {
       this.spinningReelImages[index] = JSON.parse(
         JSON.stringify(this.shuffleSymbol(this.images))
@@ -51,6 +56,22 @@ export class AppComponent implements OnInit {
       );
     });
 
-    this.isSpinning = !this.isSpinning;
+    timer(2000).subscribe((_) => {
+      this.isSpinning = false;
+    });
+  }
+
+  onAutoClick() {
+    this.isAutoMode = !this.isAutoMode;
+
+    if (this.isAutoMode) {
+      this.spin();
+      this.autoSpinIntervalSubscription = interval(4000).subscribe(() => {
+        this.spin();
+      });
+    } else {
+      this.isSpinning = false;
+      this.autoSpinIntervalSubscription.unsubscribe();
+    }
   }
 }

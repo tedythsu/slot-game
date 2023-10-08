@@ -9,9 +9,12 @@
   </div>
 </div>
 
-<div class="spin-button-container">
-  <button class="spin-button" (click)="spin()">
-    <img *ngIf="!isSpinning" src="./assets/images/rotate.png" alt="">
-    <img *ngIf="isSpinning" src="./assets/images/stop.png" alt="">
+<div class="operation-buttons">
+  <button class="operation-buttons__auto-button" (click)="onAutoClick()">
+    <ng-container *ngIf="isAutoMode">AUTO (ON)</ng-container>
+    <ng-container *ngIf="!isAutoMode">AUTO (OFF)</ng-container>
+  </button>
+  <button [disabled]="isSpinning" class="operation-buttons__spin-button" (click)="spin()">
+    SPIN
   </button>
 </div>

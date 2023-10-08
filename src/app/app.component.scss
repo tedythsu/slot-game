@@ -28,19 +28,21 @@
   }
 }
 
-.spin-button-container {
+.operation-buttons {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 5vw;
+  gap: 5vw;
 
-  .spin-button {
-    background-color: transparent;
-    border: none;
-
-    img {
-      width: 20vw;
-    }
+  button {
+    display: flex;
+    padding: 5vw;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 1vw;
+    flex: 1;
+    justify-content: center;
   }
 }
 
