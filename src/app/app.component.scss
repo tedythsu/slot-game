@@ -1,6 +1,6 @@
 .reel-container {
   display: flex;
-  gap: 20px;
+  gap: 2vw;
   justify-content: center;
 
   .reel {
@@ -9,11 +9,15 @@
     align-items: center;
     flex: 1;
     background-color: white;
-    border-radius: 10px;
+    border-radius: 1vw;
     overflow: hidden;
-    gap: 20px;
-    padding: 5%;
+    gap: 8vw;
+    padding: 5vw;
     height: 65vw;
+
+    img {
+      height: calc(100% / 3 - 6vw);
+    }
 
     img.spiningImage {
       animation: spinImage 0.2s linear;
@@ -28,21 +32,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 5vw;
 
   .spin-button {
     background-color: transparent;
     border: none;
-    width: 34%;
+
+    img {
+      width: 20vw;
+    }
   }
 }
 
 @keyframes spinImage {
   from {
-    top: 0px;
+    top: -200%;
   }
 
   to {
-    top: -200%;
+    top: 0%;
   }
 }

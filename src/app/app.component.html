@@ -1,17 +1,17 @@
 <div class="reel-container">
   <div class="reel" *ngFor="let images of reelImages; index as i">
-    <ng-container *ngIf="!isSpinning">
-      <img *ngFor="let image of images" [src]="image" width="100%" alt="">
-    </ng-container>
-    <ng-container *ngIf="isSpinning">
+    <ng-container *ngIf="isSpinning else notSpinning">
       <img *ngFor="let image of spiningReelImages[i]" class="spiningImage" [src]="image" width="100%" alt="">
     </ng-container>
+    <ng-template #notSpinning>
+      <img *ngFor="let image of images" class="image" [src]="image" alt="">
+    </ng-template>
   </div>
 </div>
 
 <div class="spin-button-container">
   <button class="spin-button" (click)="spin()">
-    <span *ngIf="!isSpinning"><img class="spiningImage" src="./assets/images/rotate.png" width="100%" alt=""></span>
-    <span *ngIf="isSpinning"><img class="spiningImage" src="./assets/images/stop.png" width="100%" alt=""></span>
+    <img *ngIf="!isSpinning" src="./assets/images/rotate.png" alt="">
+    <img *ngIf="isSpinning" src="./assets/images/stop.png" alt="">
   </button>
 </div>
