@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription, interval, timer } from 'rxjs';
+import { Subscription, finalize, interval, take } from 'rxjs';
 
 enum SlotSymbols {
   Cherries = './assets/images/cherries.png',
@@ -16,32 +16,28 @@ enum SlotSymbols {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  reelImages = [[], [], []];
   isSpinning: boolean = false;
   isAutoMode: boolean = false;
+  spinningReels = [false, false, false];
   autoSpinIntervalSubscription: Subscription = new Subscription();
 
   images: string[] = [
     SlotSymbols.Cherries,
     SlotSymbols.Cherries,
-    SlotSymbols.Cherries,
-    SlotSymbols.Lemon,
     SlotSymbols.Lemon,
     SlotSymbols.Lemon,
     SlotSymbols.Orange,
     SlotSymbols.Orange,
-    SlotSymbols.Orange,
-    SlotSymbols.Bar,
     SlotSymbols.Bar,
     SlotSymbols.Seven,
   ];
-
-  reelImages = [[], [], []];
 
   ngOnInit(): void {
     this.initReelSymbol();
   }
 
-  initReelSymbol(): void {
+  private initReelSymbol(): void {
     this.reelImages.forEach((_, index) => {
       this.reelImages[index] = JSON.parse(
         JSON.stringify(this.shuffleSymbol(this.images))
@@ -51,15 +47,19 @@ export class AppComponent implements OnInit {
     console.log('Reel', this.reelImages);
   }
 
-  shuffleSymbol = (array: string[]) => {
+  private shuffleSymbol = (array: string[]) => {
     return array.sort(() => Math.random() - 0.5);
   };
 
-  spin() {
+  public spin() {
     this.isSpinning = true;
 
+    this.spinningReels.forEach((_, index) => {
+      this.spinningReels[index] = true;
+    });
+
     this.reelImages.forEach((_, index) => {
-      const moveIndex = Math.floor(Math.random() * 12);
+      const moveIndex = Math.floor(Math.random() * 8);
 
       if (moveIndex !== 0) {
         let newReel = [...this.reelImages[index]];
@@ -67,8 +67,8 @@ export class AppComponent implements OnInit {
         this.reelImages[index].forEach((image, index) => {
           const resultIndex = index + moveIndex;
 
-          if (resultIndex > 11) {
-            newReel[resultIndex - 12] = image;
+          if (resultIndex > 7) {
+            newReel[resultIndex - 8] = image;
           } else {
             newReel[resultIndex] = image;
           }
@@ -80,12 +80,10 @@ export class AppComponent implements OnInit {
 
     console.log('New Reels', this.reelImages);
 
-    timer(2000).subscribe((_) => {
-      this.isSpinning = false;
-    });
+    this.stopSpin();
   }
 
-  onAutoClick() {
+  public toggleAutoSpin() {
     this.isAutoMode = !this.isAutoMode;
 
     if (this.isAutoMode) {
@@ -96,6 +94,35 @@ export class AppComponent implements OnInit {
     } else {
       this.isSpinning = false;
       this.autoSpinIntervalSubscription.unsubscribe();
+    }
+  }
+
+  private stopSpin() {
+    let spinningReelIndex = 0;
+
+    interval(1000)
+      .pipe(
+        take(this.spinningReels.length),
+        finalize(() => {
+          this.checkForWin();
+          this.isSpinning = false;
+        })
+      )
+      .subscribe((_) => {
+        this.spinningReels[spinningReelIndex] = false;
+        spinningReelIndex++;
+      });
+  }
+
+  private checkForWin() {
+    if (
+      this.reelImages[0][1] === this.reelImages[1][1] &&
+      this.reelImages[0][1] === this.reelImages[2][1]
+    ) {
+      console.log('WIN');
+      if (this.isAutoMode) {
+        this.toggleAutoSpin();
+      }
     }
   }
 }

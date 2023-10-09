@@ -1,16 +1,11 @@
 <div class="reel-container">
   <div class="reel" *ngFor="let images of reelImages; index as i">
-    <ng-container *ngIf="isSpinning else notSpinning">
-      <img *ngFor="let image of images" class="spinningImage" [src]="image" alt="">
-    </ng-container>
-    <ng-template #notSpinning>
-      <img *ngFor="let image of images" class="image" [src]="image" alt="">
-    </ng-template>
+    <img *ngFor="let image of images" [ngClass]="{ spinningImage: spinningReels[i] }" [src]="image" alt="">
   </div>
 </div>
 
 <div class="operation-buttons">
-  <button class="operation-buttons__auto-button" (click)="onAutoClick()">
+  <button class="operation-buttons__auto-button" (click)="toggleAutoSpin()">
     <ng-container *ngIf="isAutoMode">AUTO (ON)</ng-container>
     <ng-container *ngIf="!isAutoMode">AUTO (OFF)</ng-container>
   </button>
