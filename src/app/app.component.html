@@ -1,7 +1,7 @@
 <div class="reel-container">
   <div class="reel" *ngFor="let images of reelImages; index as i">
     <ng-container *ngIf="isSpinning else notSpinning">
-      <img *ngFor="let image of spinningReelImages[i]" class="spinningImage" [src]="image" alt="">
+      <img *ngFor="let image of images" class="spinningImage" [src]="image" alt="">
     </ng-container>
     <ng-template #notSpinning>
       <img *ngFor="let image of images" class="image" [src]="image" alt="">

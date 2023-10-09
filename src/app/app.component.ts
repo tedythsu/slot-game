@@ -1,5 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, Subscription, interval, tap, timer } from 'rxjs';
+import { Subscription, interval, timer } from 'rxjs';
+
+enum SlotSymbols {
+  Cherries = './assets/images/cherries.png',
+  Lemon = './assets/images/lemon.png',
+  Orange = './assets/images/orange.png',
+  Watermelon = './assets/images/watermelon.png',
+  Bar = './assets/images/bar.png',
+  Seven = './assets/images/seven.png',
+}
 
 @Component({
   selector: 'app-root',
@@ -12,18 +21,21 @@ export class AppComponent implements OnInit {
   autoSpinIntervalSubscription: Subscription = new Subscription();
 
   images: string[] = [
-    './assets/images/cherries.png',
-    './assets/images/seven.png',
-    './assets/images/watermelon.png',
-    './assets/images/bar.png',
-    './assets/images/cherries.png',
-    './assets/images/seven.png',
-    './assets/images/watermelon.png',
-    './assets/images/bar.png',
+    SlotSymbols.Cherries,
+    SlotSymbols.Cherries,
+    SlotSymbols.Cherries,
+    SlotSymbols.Lemon,
+    SlotSymbols.Lemon,
+    SlotSymbols.Lemon,
+    SlotSymbols.Orange,
+    SlotSymbols.Orange,
+    SlotSymbols.Orange,
+    SlotSymbols.Bar,
+    SlotSymbols.Bar,
+    SlotSymbols.Seven,
   ];
 
   reelImages = [[], [], []];
-  spinningReelImages = [[], [], []];
 
   ngOnInit(): void {
     this.initReelSymbol();
@@ -35,6 +47,8 @@ export class AppComponent implements OnInit {
         JSON.stringify(this.shuffleSymbol(this.images))
       );
     });
+
+    console.log('Reel', this.reelImages);
   }
 
   shuffleSymbol = (array: string[]) => {
@@ -44,17 +58,27 @@ export class AppComponent implements OnInit {
   spin() {
     this.isSpinning = true;
 
-    this.spinningReelImages.forEach((_, index) => {
-      this.spinningReelImages[index] = JSON.parse(
-        JSON.stringify(this.shuffleSymbol(this.images))
-      );
+    this.reelImages.forEach((_, index) => {
+      const moveIndex = Math.floor(Math.random() * 12);
+
+      if (moveIndex !== 0) {
+        let newReel = [...this.reelImages[index]];
+
+        this.reelImages[index].forEach((image, index) => {
+          const resultIndex = index + moveIndex;
+
+          if (resultIndex > 11) {
+            newReel[resultIndex - 12] = image;
+          } else {
+            newReel[resultIndex] = image;
+          }
+        });
+
+        this.reelImages[index] = newReel;
+      }
     });
 
-    this.reelImages.forEach((_, index) => {
-      this.reelImages[index] = JSON.parse(
-        JSON.stringify(this.shuffleSymbol(this.reelImages[index]))
-      );
-    });
+    console.log('New Reels', this.reelImages);
 
     timer(2000).subscribe((_) => {
       this.isSpinning = false;
