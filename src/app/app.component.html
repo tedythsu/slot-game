@@ -1,6 +1,6 @@
 <div class="reel-container">
-  <div class="reel" *ngFor="let images of reelImages; index as i">
-    <img *ngFor="let image of images" [ngClass]="{ spinningImage: spinningReels[i] }" [src]="image" alt="">
+  <div class="reel" *ngFor="let reelSetImages of reelSets; index as i">
+    <img *ngFor="let image of reelSetImages" [ngClass]="{ spinningImage: spinningReels[i] }" [src]="image" alt="Slot Image">
   </div>
 </div>
 

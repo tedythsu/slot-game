@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription, finalize, interval, take } from 'rxjs';
 
 enum SlotSymbols {
-  Cherries = './assets/images/cherries.png',
-  Lemon = './assets/images/lemon.png',
-  Orange = './assets/images/orange.png',
-  Watermelon = './assets/images/watermelon.png',
-  Bar = './assets/images/bar.png',
-  Seven = './assets/images/seven.png',
+  CHERRIES = './assets/images/cherries.png',
+  LEMON = './assets/images/lemon.png',
+  ORANGE = './assets/images/orange.png',
+  WATERMELON = './assets/images/watermelon.png',
+  BAR = './assets/images/bar.png',
+  SEVEN = './assets/images/seven.png',
 }
 
 @Component({
@@ -16,38 +16,40 @@ enum SlotSymbols {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  reelImages = [[], [], []];
+  reelSets = [[], [], []];
   isSpinning: boolean = false;
   isAutoMode: boolean = false;
   spinningReels = [false, false, false];
   autoSpinIntervalSubscription: Subscription = new Subscription();
 
-  images: string[] = [
-    SlotSymbols.Cherries,
-    SlotSymbols.Cherries,
-    SlotSymbols.Lemon,
-    SlotSymbols.Lemon,
-    SlotSymbols.Orange,
-    SlotSymbols.Orange,
-    SlotSymbols.Bar,
-    SlotSymbols.Seven,
+  slotImages: string[] = [
+    SlotSymbols.CHERRIES,
+    SlotSymbols.CHERRIES,
+    SlotSymbols.LEMON,
+    SlotSymbols.LEMON,
+    SlotSymbols.ORANGE,
+    SlotSymbols.ORANGE,
+    SlotSymbols.BAR,
+    SlotSymbols.SEVEN,
   ];
 
+  slotImageCount: number = this.slotImages.length;
+
   ngOnInit(): void {
-    this.initReelSymbol();
+    this.initializeReelSymbols();
   }
 
-  private initReelSymbol(): void {
-    this.reelImages.forEach((_, index) => {
-      this.reelImages[index] = JSON.parse(
-        JSON.stringify(this.shuffleSymbol(this.images))
+  private initializeReelSymbols(): void {
+    this.reelSets.forEach((_, index) => {
+      this.reelSets[index] = JSON.parse(
+        JSON.stringify(this.shuffleArray(this.slotImages))
       );
     });
 
-    console.log('Reel', this.reelImages);
+    console.log('Reel Sets', this.reelSets);
   }
 
-  private shuffleSymbol = (array: string[]) => {
+  private shuffleArray = (array: string[]) => {
     return array.sort(() => Math.random() - 0.5);
   };
 
@@ -58,27 +60,27 @@ export class AppComponent implements OnInit {
       this.spinningReels[index] = true;
     });
 
-    this.reelImages.forEach((_, index) => {
-      const moveIndex = Math.floor(Math.random() * 8);
+    this.reelSets.forEach((_, index) => {
+      const moveIndex = Math.floor(Math.random() * this.slotImageCount);
 
       if (moveIndex !== 0) {
-        let newReel = [...this.reelImages[index]];
+        let newReel = [...this.reelSets[index]];
 
-        this.reelImages[index].forEach((image, index) => {
+        this.reelSets[index].forEach((image, index) => {
           const resultIndex = index + moveIndex;
 
-          if (resultIndex > 7) {
-            newReel[resultIndex - 8] = image;
+          if (resultIndex >= this.slotImageCount) {
+            newReel[resultIndex - this.slotImageCount] = image;
           } else {
             newReel[resultIndex] = image;
           }
         });
 
-        this.reelImages[index] = newReel;
+        this.reelSets[index] = newReel;
       }
     });
 
-    console.log('New Reels', this.reelImages);
+    console.log('New Reel Sets', this.reelSets);
 
     this.stopSpin();
   }
@@ -116,8 +118,8 @@ export class AppComponent implements OnInit {
 
   private checkForWin() {
     if (
-      this.reelImages[0][1] === this.reelImages[1][1] &&
-      this.reelImages[0][1] === this.reelImages[2][1]
+      this.reelSets[0][1] === this.reelSets[1][1] &&
+      this.reelSets[0][1] === this.reelSets[2][1]
     ) {
       console.log('WIN');
       if (this.isAutoMode) {
