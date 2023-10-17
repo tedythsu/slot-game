@@ -144,7 +144,11 @@ export class AppComponent implements OnInit {
   }
 
   public insertCoin() {
-    this.insertCoinSound.play();
+    if (this.insertCoinSound) {
+      this.insertCoinSound.pause();
+      this.insertCoinSound.currentTime = 0;
+      this.insertCoinSound.play();
+    }
     this.credits++;
   }
 
