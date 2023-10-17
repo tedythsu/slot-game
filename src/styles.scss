@@ -1,5 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 
+@font-face {
+  font-family: 'digital-7';
+  src: url('./assets/fonts/digital-7.ttf');
+}
+
+@font-face {
+  font-family: 'insigne-display';
+  src: url('./assets/fonts/Insigne Display.otf');
+}
+
 body {
   background-color: black;
 }

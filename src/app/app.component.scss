@@ -30,19 +30,50 @@
 
 .operation-buttons {
   align-items: center;
-  display: flex;
+  // display: flex;
   gap: 5vw;
   justify-content: center;
-  padding: 5vw;
+  padding: 0 5vw;
+
+  // Testing Style
+  display: grid;
+  grid-template-columns: minmax(200px, 1fr) 1fr;
 
   button {
     border-radius: 1vw;
-    display: flex;
-    flex: 1;
+    // display: flex;
+    // flex: 1;
     font-size: 1.1rem;
     font-weight: bold;
-    justify-content: center;
+    // justify-content: center;
     padding: 5vw;
+  }
+
+  // Testing Style
+  .pushable {
+    background: hsl(340deg 100% 32%);
+    border-radius: 12px;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    outline-offset: 4px;
+  }
+
+  // Testing Style
+  .front {
+    display: block;
+    padding: 12px 42px;
+    border-radius: 12px;
+    font-size: 1.25rem;
+    background: hsl(345deg 100% 47%);
+    color: white;
+    transform: translateY(-6px);
+    white-space: nowrap;
+  }
+
+  // Testing Style
+  .pushable:active .front {
+    transform: translateY(-2px);
   }
 }
 
@@ -53,5 +84,37 @@
 
   to {
     top: 0%;
+  }
+}
+
+.game-detail-container {
+  align-items: center;
+  display: grid;
+  gap: 3vw;
+  grid-template-columns: auto auto;
+  margin: 5vw 0;
+  text-align: center;
+
+  .info-area {
+    display: grid;
+    gap: 2vw;
+    grid-template-columns: auto auto auto;
+
+    &__info {
+      border-image: linear-gradient(to right, white, grey) 1;
+      border-style: solid;
+      border-width: 2px;
+      color: red;
+      font-family: 'digital-7';
+      font-size: 2rem;
+      padding: 1vw;
+    }
+
+    &__label {
+      color: white;
+      font-family: 'insigne-display';
+      font-size: 1.5rem;
+      white-space: nowrap;
+    }
   }
 }
