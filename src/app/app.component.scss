@@ -98,7 +98,7 @@
   .info-area {
     display: grid;
     gap: 2vw;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: minmax(103px, auto) auto auto;
 
     &__info {
       border-image: linear-gradient(to right, white, grey) 1;

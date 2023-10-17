@@ -21,6 +21,8 @@ export class AppComponent implements OnInit {
   isAutoMode: boolean = false;
   spinningReels = [false, false, false];
   autoSpinIntervalSubscription: Subscription = new Subscription();
+  credits: number = 0;
+  insertCoinSound = new Audio('./assets/sound/mixkit-clinking-coins-1993.wav');
 
   slotImages: string[] = [
     SlotSymbols.CHERRIES,
@@ -34,6 +36,10 @@ export class AppComponent implements OnInit {
   ];
 
   slotImageCount: number = this.slotImages.length;
+
+  get prefixCredits() {
+    return this.prefixInteger(this.credits, 6);
+  }
 
   ngOnInit(): void {
     this.initializeReelSymbols();
@@ -54,35 +60,38 @@ export class AppComponent implements OnInit {
   };
 
   public spin() {
-    this.isSpinning = true;
+    if (this.credits > 0) {
+      this.credits--;
+      this.isSpinning = true;
 
-    this.spinningReels.forEach((_, index) => {
-      this.spinningReels[index] = true;
-    });
+      this.spinningReels.forEach((_, index) => {
+        this.spinningReels[index] = true;
+      });
 
-    this.reelSets.forEach((_, index) => {
-      const moveIndex = Math.floor(Math.random() * this.slotImageCount);
+      this.reelSets.forEach((_, index) => {
+        const moveIndex = Math.floor(Math.random() * this.slotImageCount);
 
-      if (moveIndex !== 0) {
-        let newReel = [...this.reelSets[index]];
+        if (moveIndex !== 0) {
+          let newReel = [...this.reelSets[index]];
 
-        this.reelSets[index].forEach((image, index) => {
-          const resultIndex = index + moveIndex;
+          this.reelSets[index].forEach((image, index) => {
+            const resultIndex = index + moveIndex;
 
-          if (resultIndex >= this.slotImageCount) {
-            newReel[resultIndex - this.slotImageCount] = image;
-          } else {
-            newReel[resultIndex] = image;
-          }
-        });
+            if (resultIndex >= this.slotImageCount) {
+              newReel[resultIndex - this.slotImageCount] = image;
+            } else {
+              newReel[resultIndex] = image;
+            }
+          });
 
-        this.reelSets[index] = newReel;
-      }
-    });
+          this.reelSets[index] = newReel;
+        }
+      });
 
-    console.log('New Reel Sets', this.reelSets);
+      console.log('New Reel Sets', this.reelSets);
 
-    this.stopSpin();
+      this.stopSpin();
+    }
   }
 
   public toggleAutoSpin() {
@@ -108,6 +117,7 @@ export class AppComponent implements OnInit {
         finalize(() => {
           this.checkForWin();
           this.isSpinning = false;
+          this.checkAndToggleAutoSpin(true);
         })
       )
       .subscribe((_) => {
@@ -121,7 +131,29 @@ export class AppComponent implements OnInit {
       this.reelSets[0][1] === this.reelSets[1][1] &&
       this.reelSets[0][1] === this.reelSets[2][1]
     ) {
-      console.log('WIN');
+      setTimeout(() => {
+        window.alert('WIN!');
+      }, 0);
+
+      this.checkAndToggleAutoSpin(false);
+    }
+  }
+
+  private prefixInteger(num: number, length: number) {
+    return (Array(length).join('0') + num).slice(-length);
+  }
+
+  public insertCoin() {
+    this.insertCoinSound.play();
+    this.credits++;
+  }
+
+  private checkAndToggleAutoSpin(checkCredits: boolean) {
+    if (checkCredits) {
+      if (this.credits < 1 && this.isAutoMode) {
+        this.toggleAutoSpin();
+      }
+    } else {
       if (this.isAutoMode) {
         this.toggleAutoSpin();
       }
