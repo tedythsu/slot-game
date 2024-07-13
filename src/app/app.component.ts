@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
   autoSpinIntervalSubscription: Subscription = new Subscription();
   credits: number = 9999;
   insertCoinSound = new Audio('./assets/sound/mixkit-clinking-coins-1993.wav');
+  spinSound = new Audio('./assets/sound/custom-slot-machine-spin-loop-sound-effect-241518954_nw_prev.m4a');
 
   slotImages: string[] = [
     SlotSymbols.CHERRIES,
@@ -61,6 +62,10 @@ export class AppComponent implements OnInit {
 
   public spin() {
     if (this.credits > 0) {
+      this.spinSound.pause();
+      this.spinSound.currentTime = 0;
+      this.spinSound.play();
+
       this.credits--;
       this.isSpinning = true;
 
@@ -111,7 +116,7 @@ export class AppComponent implements OnInit {
   private stopSpin() {
     let spinningReelIndex = 0;
 
-    interval(1000)
+    interval(800)
       .pipe(
         take(this.spinningReels.length),
         finalize(() => {
