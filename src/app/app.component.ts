@@ -62,7 +62,7 @@ export class AppComponent implements OnInit {
 
   public spin() {
     if (this.credits > 0) {
-      this.spinSound.pause();
+      // this.spinSound.pause();
       this.spinSound.currentTime = 0;
       this.spinSound.play();
 
@@ -116,10 +116,11 @@ export class AppComponent implements OnInit {
   private stopSpin() {
     let spinningReelIndex = 0;
 
-    interval(800)
+    interval(850)
       .pipe(
         take(this.spinningReels.length),
         finalize(() => {
+          this.spinSound.pause();
           this.checkForWin();
           this.isSpinning = false;
           this.checkAndToggleAutoSpin(true);
