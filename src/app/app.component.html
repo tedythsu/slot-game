@@ -5,6 +5,9 @@
       <img *ngFor="let image of reelSetImages" [ngClass]="{ spinningImage: spinningReels[i] }" [src]="image"
         alt="Slot Image">
     </div>
+    <div *ngIf="isTopLineMatched" class="payline payline--top"></div>
+    <div *ngIf="isMiddleLineMatched" class="payline payline--middle"></div>
+    <div *ngIf="isBottomLineMatched" class="payline payline--bottom"></div>
   </div>
 
   <div class="game-detail-container">

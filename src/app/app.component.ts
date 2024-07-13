@@ -24,6 +24,10 @@ export class AppComponent implements OnInit {
   credits: number = 9999;
   insertCoinSound = new Audio('./assets/sound/mixkit-clinking-coins-1993.wav');
   spinSound = new Audio('./assets/sound/custom-slot-machine-spin-loop-sound-effect-241518954_nw_prev.m4a');
+  jackpotSound = new Audio('./assets/sound/coins-jackpot-3-sound-effect-146321209_nw_prev.m4a');
+  isTopLineMatched: boolean = false;
+  isMiddleLineMatched: boolean = false;
+  isBottomLineMatched: boolean = false;
 
   slotImages: string[] = [
     SlotSymbols.CHERRIES,
@@ -62,7 +66,8 @@ export class AppComponent implements OnInit {
 
   public spin() {
     if (this.credits > 0) {
-      // this.spinSound.pause();
+      this.resetMatchStatus();
+      this.spinSound.volume = 0.25;
       this.spinSound.currentTime = 0;
       this.spinSound.play();
 
@@ -121,7 +126,7 @@ export class AppComponent implements OnInit {
         take(this.spinningReels.length),
         finalize(() => {
           this.spinSound.pause();
-          this.checkForWin();
+          this.evaluateWinningLines();
           this.isSpinning = false;
           this.checkAndToggleAutoSpin(true);
         })
@@ -132,17 +137,26 @@ export class AppComponent implements OnInit {
       });
   }
 
-  private checkForWin() {
-    if (
-      this.reelSets[0][1] === this.reelSets[1][1] &&
-      this.reelSets[0][1] === this.reelSets[2][1]
-    ) {
-      setTimeout(() => {
-        window.alert('WIN!');
-      }, 0);
+  private evaluateWinningLines(): void {
+    const lineChecks = [
+      { index: 0, matchVariable: 'isTopLineMatched' },
+      { index: 1, matchVariable: 'isMiddleLineMatched' },
+      { index: 2, matchVariable: 'isBottomLineMatched' }
+    ];
 
-      this.checkAndToggleAutoSpin(false);
-    }
+    lineChecks.forEach(line => {
+      if (
+        this.reelSets[0][line.index] === this.reelSets[1][line.index] &&
+        this.reelSets[0][line.index] === this.reelSets[2][line.index]
+      ) {
+        setTimeout(() => {
+          this.jackpotSound.play();
+          (this as any)[line.matchVariable] = true;
+        }, 0);
+
+        this.checkAndToggleAutoSpin(false);
+      }
+    });
   }
 
   private prefixInteger(num: number, length: number) {
@@ -168,5 +182,11 @@ export class AppComponent implements OnInit {
         this.toggleAutoSpin();
       }
     }
+  }
+
+  private resetMatchStatus(): void {
+    this.isTopLineMatched = false;
+    this.isMiddleLineMatched = false;
+    this.isBottomLineMatched = false;
   }
 }

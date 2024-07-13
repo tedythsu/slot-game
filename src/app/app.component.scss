@@ -8,6 +8,7 @@
     max-width: 72.37vh;
     margin: auto;
     padding: 0 3%;
+    position: relative;
 
     .reel {
       align-items: center;
@@ -31,6 +32,37 @@
         animation: spinImage 0.2s linear;
         animation-iteration-count: infinite;
         position: relative;
+      }
+    }
+
+    .payline {
+      position: absolute;
+      background-color: red;
+      max-width: calc(72.37vh - 6%);
+      height: 2%;
+      width: 88%;
+      background-color: red;
+      animation: blink 0.5s infinite;
+
+      &--top {
+        top: 16%;
+      }
+
+      &--middle {
+        top: 50%;
+      }
+
+      &--bottom {
+        top: 82%;
+      }
+    }
+
+    @keyframes blink {
+      0%, 100% {
+          opacity: 0;
+      }
+      50% {
+          opacity: 1;
       }
     }
   }
