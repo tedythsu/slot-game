@@ -28,6 +28,8 @@ export class AppComponent implements OnInit {
   isTopLineMatched: boolean = false;
   isMiddleLineMatched: boolean = false;
   isBottomLineMatched: boolean = false;
+  bet = 3;
+  winnerPaid = 0;
 
   slotImages: string[] = [
     SlotSymbols.CHERRIES,
@@ -44,6 +46,14 @@ export class AppComponent implements OnInit {
 
   get prefixCredits() {
     return this.prefixInteger(this.credits, 6);
+  }
+
+  get prefixBet() {
+    return this.prefixInteger(this.bet, 2);
+  }
+
+  get prefixWinnerPaid() {
+    return this.prefixInteger(this.winnerPaid, 6);
   }
 
   ngOnInit(): void {
@@ -71,7 +81,7 @@ export class AppComponent implements OnInit {
       this.spinSound.currentTime = 0;
       this.spinSound.play();
 
-      this.credits--;
+      this.credits -= this.bet;
       this.isSpinning = true;
 
       this.spinningReels.forEach((_, index) => {
@@ -138,6 +148,8 @@ export class AppComponent implements OnInit {
   }
 
   private evaluateWinningLines(): void {
+    let winnerPaid = 0;
+
     const lineChecks = [
       { index: 0, matchVariable: 'isTopLineMatched' },
       { index: 1, matchVariable: 'isMiddleLineMatched' },
@@ -149,14 +161,15 @@ export class AppComponent implements OnInit {
         this.reelSets[0][line.index] === this.reelSets[1][line.index] &&
         this.reelSets[0][line.index] === this.reelSets[2][line.index]
       ) {
-        setTimeout(() => {
-          this.jackpotSound.play();
-          (this as any)[line.matchVariable] = true;
-        }, 0);
-
-        this.checkAndToggleAutoSpin(false);
+        this.jackpotSound.play();
+        (this as any)[line.matchVariable] = true;
+        const payout = this.getPayoutForSymbol(this.reelSets[0][line.index]);
+        winnerPaid += this.bet * payout;
       }
     });
+
+    this.winnerPaid = winnerPaid;
+    this.credits += this.winnerPaid;
   }
 
   private prefixInteger(num: number, length: number) {
@@ -188,5 +201,24 @@ export class AppComponent implements OnInit {
     this.isTopLineMatched = false;
     this.isMiddleLineMatched = false;
     this.isBottomLineMatched = false;
+  }
+
+  private getPayoutForSymbol(symbol: string): number {
+    switch (symbol) {
+      case SlotSymbols.CHERRIES:
+        return 5;
+      case SlotSymbols.LEMON:
+        return 10;
+      case SlotSymbols.ORANGE:
+        return 15;
+      case SlotSymbols.WATERMELON:
+        return 20;
+      case SlotSymbols.BAR:
+        return 25;
+      case SlotSymbols.SEVEN:
+        return 50;
+      default:
+        return 0;
+    }
   }
 }
