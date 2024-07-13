@@ -1,120 +1,118 @@
-.reel-container {
-  display: flex;
-  gap: 2vw;
-  justify-content: center;
+.slot-container {
+  width: 100vw;
 
-  .reel {
-    align-items: center;
-    background-color: white;
-    border-radius: 1vw;
-    box-shadow: inset 0 0px 0px 0px #fff, inset 0 -1px 10px 0px black;
+  .reel-container {
     display: flex;
-    flex: 1;
-    flex-direction: column;
-    gap: 8vw;
-    height: 65vw;
-    overflow: hidden;
-    padding: 5vw;
+    gap: 3%;
+    justify-content: center;
+    max-width: 72.37vh;
+    margin: auto;
+    padding: 0 3%;
 
-    img {
-      height: calc(100% / 3 - 6vw);
+    .reel {
+      align-items: center;
+      background-color: white;
+      border-radius: 1vw;
+      box-shadow: inset 0 0px 0px 0px #fff, inset 0 -1px 10px 0px black;
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      gap: 15%;
+      height: 65vw;
+      overflow: hidden;
+      padding: 5%;
+      max-height: 50vh;
+
+      img {
+        height: 23%;
+      }
+
+      img.spinningImage {
+        animation: spinImage 0.2s linear;
+        animation-iteration-count: infinite;
+        position: relative;
+      }
     }
-
-    img.spinningImage {
-      animation: spinImage 0.2s linear;
-      animation-iteration-count: infinite;
-      position: relative;
-    }
-  }
-}
-
-.operation-buttons {
-  align-items: center;
-  // display: flex;
-  gap: 5vw;
-  justify-content: center;
-  padding: 0 5vw;
-
-  // Testing Style
-  display: grid;
-  grid-template-columns: minmax(200px, 1fr) 1fr;
-
-  button {
-    border-radius: 1vw;
-    // display: flex;
-    // flex: 1;
-    font-size: 1.1rem;
-    font-weight: bold;
-    // justify-content: center;
-    padding: 5vw;
   }
 
-  // Testing Style
-  .pushable {
-    background: hsl(340deg 100% 32%);
-    border-radius: 12px;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    outline-offset: 4px;
-  }
-
-  // Testing Style
-  .front {
-    display: block;
-    padding: 12px 42px;
-    border-radius: 12px;
-    font-size: 1.25rem;
-    background: hsl(345deg 100% 47%);
-    color: white;
-    transform: translateY(-6px);
-    white-space: nowrap;
-  }
-
-  // Testing Style
-  .pushable:active .front {
-    transform: translateY(-2px);
-  }
-}
-
-@keyframes spinImage {
-  from {
-    top: -200%;
-  }
-
-  to {
-    top: 0%;
-  }
-}
-
-.game-detail-container {
-  align-items: center;
-  display: grid;
-  gap: 3vw;
-  grid-template-columns: auto auto;
-  margin: 5vw 0;
-  text-align: center;
-
-  .info-area {
+  .operation-buttons {
+    gap: 20px;
+    max-width: 72.37vh;
     display: grid;
-    gap: 2vw;
-    grid-template-columns: minmax(103px, auto) auto auto;
+    grid-template-columns: minmax(200px, 1fr) 1fr;
+    margin: auto;
+    padding: 0 3%;
 
-    &__info {
-      border-image: linear-gradient(to right, white, grey) 1;
-      border-style: solid;
-      border-width: 2px;
-      color: red;
-      font-family: 'digital-7';
-      font-size: 2rem;
-      padding: 1vw;
+    button {
+      border-radius: 1vw;
+      font-size: 1.1rem;
+      font-weight: bold;
+      padding: 5vw;
     }
 
-    &__label {
+    .pushable {
+      background: hsl(340deg 100% 32%);
+      border-radius: 12px;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      outline-offset: 4px;
+    }
+
+    .front {
+      display: block;
+      padding: 12px 42px;
+      border-radius: 12px;
+      font-size: 1.25rem;
+      background: hsl(345deg 100% 47%);
       color: white;
-      font-family: 'insigne-display';
-      font-size: 1.5rem;
+      transform: translateY(-6px);
       white-space: nowrap;
     }
+
+    .pushable:active .front {
+      transform: translateY(-2px);
+    }
   }
+
+  @keyframes spinImage {
+    from {
+      top: -200%;
+    }
+
+    to {
+      top: 0%;
+    }
+  }
+
+  .game-detail-container {
+    text-align: center;
+    max-width: 72.37vh;
+    margin: 20px auto;
+    padding: 0 3%;
+
+    .info-area {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: minmax(103px, auto) auto auto;
+
+      &__info {
+        border-image: linear-gradient(to right, white, grey) 1;
+        border-style: solid;
+        border-width: 2px;
+        color: red;
+        font-family: 'digital-7';
+        font-size: 2rem;
+        padding: 1%;
+      }
+
+      &__label {
+        color: white;
+        font-family: 'insigne-display';
+        font-size: 1.5rem;
+        white-space: nowrap;
+      }
+    }
+  }
+
 }

@@ -1,36 +1,40 @@
-<div class="reel-container">
-  <div class="reel" *ngFor="let reelSetImages of reelSets; index as i">
-    <img *ngFor="let image of reelSetImages" [ngClass]="{ spinningImage: spinningReels[i] }" [src]="image"
-      alt="Slot Image">
-  </div>
-</div>
+<div class="slot-container">
 
-<div class="game-detail-container">
-  <div class="info-area">
-    <div class="info-area__info">{{prefixCredits}}</div>
-    <div class="info-area__info">03</div>
-    <div class="info-area__info">000006</div>
-    <div class="info-area__label">CREDITS</div>
-    <div class="info-area__label">BET</div>
-    <div class="info-area__label">WINNER PAID</div>
+  <div class="reel-container">
+    <div class="reel" *ngFor="let reelSetImages of reelSets; index as i">
+      <img *ngFor="let image of reelSetImages" [ngClass]="{ spinningImage: spinningReels[i] }" [src]="image"
+        alt="Slot Image">
+    </div>
   </div>
-  <div class="coin-area">
+
+  <div class="game-detail-container">
+    <div class="info-area">
+      <div class="info-area__info">{{prefixCredits}}</div>
+      <div class="info-area__info">03</div>
+      <div class="info-area__info">000006</div>
+      <div class="info-area__label">CREDITS</div>
+      <div class="info-area__label">BET</div>
+      <div class="info-area__label">WINNER PAID</div>
+    </div>
+    <!-- <div class="coin-area">
     <img (click)="insertCoin()" src="./assets/images/coin-slot.png" width="100%" alt="Slot Image">
+  </div> -->
   </div>
-</div>
 
-<div class="operation-buttons">
-  <button [disabled]="credits < 1" class="operation-buttons__auto-button pushable" (click)="toggleAutoSpin()">
-    <ng-container *ngIf="isAutoMode; else autoOff">
-      <span class="front">AUTO (ON)</span>
-    </ng-container>
-    <ng-template #autoOff>
-      <span class="front">AUTO (OFF)</span>
-    </ng-template>
-  </button>
-  <button [disabled]="isSpinning || credits < 1" class="operation-buttons__spin-button pushable" (click)="spin()">
-    <span class="front">
-      SPIN
-    </span>
-  </button>
+  <div class="operation-buttons">
+    <button [disabled]="credits < 1" class="operation-buttons__auto-button pushable" (click)="toggleAutoSpin()">
+      <ng-container *ngIf="isAutoMode; else autoOff">
+        <span class="front">AUTO (ON)</span>
+      </ng-container>
+      <ng-template #autoOff>
+        <span class="front">AUTO (OFF)</span>
+      </ng-template>
+    </button>
+    <button [disabled]="isSpinning || credits < 1" class="operation-buttons__spin-button pushable" (click)="spin()">
+      <span class="front">
+        SPIN
+      </span>
+    </button>
+  </div>
+
 </div>

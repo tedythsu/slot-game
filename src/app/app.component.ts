@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
   isAutoMode: boolean = false;
   spinningReels = [false, false, false];
   autoSpinIntervalSubscription: Subscription = new Subscription();
-  credits: number = 0;
+  credits: number = 9999;
   insertCoinSound = new Audio('./assets/sound/mixkit-clinking-coins-1993.wav');
 
   slotImages: string[] = [
